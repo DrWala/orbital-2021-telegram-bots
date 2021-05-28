@@ -20,12 +20,8 @@ def error(update, context):
 
 
 def manual_poll(updater):
-    while True:
-        r = requests.get("http://localhost:5000")
-        if "Blue" in str(r.content):
-            updater.bot.send_message(chat_id="YOUR CHAT ID HERE", text="aha!")
-
-        time.sleep(1)
+    # Lets change this later
+    return None
 
 
 def main():
