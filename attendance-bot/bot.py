@@ -28,8 +28,6 @@ logger = logging.getLogger(__name__)
 
 
 # Class defining an attendance session
-
-
 class AttendanceSession:
     def __init__(self, chat_id: int, message_id: int, message: str) -> None:
         self.chat_id = chat_id
@@ -48,7 +46,11 @@ class AttendanceSession:
 # Store JSONs as separate maps in memory. These variables should
 # eventually be persisted to a database of some sort, but for now
 # we store it all in the program's runtime memory.
-CLASS_TO_STUDENTS = {}
+CLASS_TO_STUDENTS = {
+    "XII-A": {
+        "Azeem Vasanwala": "azeemvasanwala"
+    }
+}
 STUDENTS_TO_CLASS = {}
 CLASS_TO_SESSION = {}
 USERNAME_TO_IDS = {}
@@ -62,8 +64,6 @@ USERNAME_TO_IDS = {}
 def start(update: Update, _: CallbackContext) -> None:
     global USERNAME_TO_IDS
     USERNAME_TO_IDS[update.message.from_user.username] = update.message.from_user.id
-    with open('userids.json', 'w') as f:
-        json.dump(USERNAME_TO_IDS, f)
     update.message.reply_text(
         'Welcome! Your username has been stored in our very secure servers.')
 
@@ -152,15 +152,9 @@ def update_attendance_message(session: dict, username: str) -> str:
 
 
 def init_data() -> None:
-    with open('classes.json') as f:
-        global CLASS_TO_STUDENTS
-        CLASS_TO_STUDENTS = json.load(f)
     for classname, students in CLASS_TO_STUDENTS.items():
         for _, student_id in students.items():
             STUDENTS_TO_CLASS[student_id] = classname
-    with open('userids.json') as f:
-        global USERNAME_TO_IDS
-        USERNAME_TO_IDS = json.load(f)
 
 
 def main() -> None:
