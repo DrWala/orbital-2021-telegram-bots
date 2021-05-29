@@ -45,7 +45,9 @@ class AttendanceSession:
         return json.dumps(json_data)
 
 
-# Store JSONs as separate maps in Redis
+# Store JSONs as separate maps in memory. These variables should
+# eventually be persisted to a database of some sort, but for now
+# we store it all in the program's runtime memory.
 CLASS_TO_STUDENTS = {}
 STUDENTS_TO_CLASS = {}
 CLASS_TO_SESSION = {}
@@ -162,7 +164,7 @@ def init_data() -> None:
 
 
 def main() -> None:
-    # Init Redis data
+    # Init data
     init_data()
 
     # Create the Updater and pass it your bot's token.
